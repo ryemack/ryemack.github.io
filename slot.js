@@ -72,7 +72,7 @@ function SlotGame() {
 
     var items = [ 
 	{id: 'helmet'},
-	{id: 'boots'},
+	{id: 'boot'},
 	{id: 'grenade'},
 	{id: 'jet'},
 	{id: 'rifle'},
