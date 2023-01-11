@@ -1,9 +1,143 @@
 <html>
-<head>
-</head>
-<body>
-<div>
-test of this page
-</div>
-</body>
+  <head>
+  <link rel="stylesheet" href="./index.css" />
+  </head>
+  <body>
+    <div id="app" class="bigBoss">
+
+
+      <div class="myTitle">
+        My Ranger
+      </div>
+
+      <div class="learningFlex">
+        <div class="tabSelector" id="makeTab">
+          Make Ranger
+        </div>
+        <div class="tabSelector" id="viewTab">
+          View Ranger
+        </div>
+        <div class="tabSelector">
+          Tab 3
+        </div>
+      </div>
+
+      <div id="chosenContent" class="chosenClass">
+      </div>
+
+    </div>
+  </body>
+  <script>
+    interface Ranger {
+	name: string,
+  rank: string,
+  brn: string
+}
+
+const newRangerBuilder: Ranger = {
+	name: "",
+  rank: "",
+  brn: ""
+}
+
+window.onload = function() {
+  const defaultTab = document.getElementById("makeTab")
+  defaultTab.click()
+}
+
+const viewTab = document.getElementById("viewTab")
+viewTab.addEventListener("click", () => {
+	const viewContent = document.getElementById("chosenContent")
+  viewContent.innerHTML = ""
+  
+	const currTitle = document.createElement("div")
+  currTitle.innerHTML = "Current Ranger Data"
+  viewContent.appendChild(currTitle)
+  
+  const currName = document.createElement("div")
+  currName.innerHTML = "currName: "
+  currName.classList.add("dataSpacer")
+  const nameResult = document.createElement("span")
+  nameResult.innerHTML = newRangerBuilder.name
+  currName.appendChild(nameResult)
+	viewContent.appendChild(currName)
+  
+  const currRank = document.createElement("div")
+  currRank.innerHTML = "currRank: "
+  currRank.classList.add("dataSpacer")
+  const rankResult = document.createElement("span")
+  rankResult.innerHTML = newRangerBuilder.rank
+  currRank.appendChild(rankResult)
+  viewContent.appendChild(currRank)
+  
+  const currBrn = document.createElement("div")
+  currBrn.innerHTML = "currBrn: "
+  currBrn.classList.add("dataSpacer")
+  const brnResult = document.createElement("span")
+  brnResult.innerHTML = newRangerBuilder.brn
+	currBrn.appendChild(brnResult)
+  viewContent.appendChild(currBrn)
+})
+
+const makeTab = document.getElementById("makeTab")
+makeTab.addEventListener("click", () => {
+	const makeContent = document.getElementById("chosenContent")
+  makeContent.innerHTML = ""
+  
+  const rangerName = document.createElement("div")
+  rangerName.innerHTML = "Name: "
+  const nameInput = document.createElement("input")
+  nameInput.id = "rangerName"
+  rangerName.appendChild(nameInput)
+  makeContent.appendChild(rangerName)
+  
+  const rangerRank = document.createElement("div")
+  rangerRank.innerHTML = "Rank: "
+  const rankInput = document.createElement("input")
+  rankInput.id = "rangerRank"
+  rangerRank.appendChild(rankInput)
+  makeContent.appendChild(rangerRank)
+  
+  const rangerBrn = document.createElement("div")
+  rangerBrn.innerHTML = "BRN: "
+  const brnInput = document.createElement("input")
+  brnInput.id = "rangerBrn"
+  rangerBrn.appendChild(brnInput)
+  makeContent.appendChild(rangerBrn)
+  
+  const buttonHolder = document.createElement("div")
+  const subBtn = document.createElement("button")
+	subBtn.id = "subBtn"
+  subBtn.classList.add("btnClass")
+  subBtn.innerHTML = "Submit Info"
+  buttonHolder.appendChild(subBtn)
+  makeContent.appendChild(buttonHolder)
+  
+  const submitBtn = document.getElementById("subBtn")
+	submitBtn.addEventListener("click", () => {
+
+	if (newRangerBuilder.name !== "" || newRangerBuilder.rank !== "" || newRangerBuilder.brn !== "") {
+		console.log("i have some previous info!")
+	}
+
+	const nameInputValue = document.getElementById("rangerName").value
+  const rankInputValue = document.getElementById("rangerRank").value
+  const brnInputValue = document.getElementById("rangerBrn").value
+ 
+
+  if (nameInputValue === "" || rankInputValue === "" || brnInputValue === "") {
+  		console.log("I need all the fields filled out!")
+  } else {    
+  	console.log("updating...")
+    newRangerBuilder.name = nameInputValue
+ 	 	newRangerBuilder.rank = rankInputValue
+		newRangerBuilder.brn = brnInputValue
+    
+    document.getElementById("rangerName").value = ""
+    document.getElementById("rangerRank").value = ""
+    document.getElementById("rangerBrn").value = ""
+  }
+})
+})
+  </script>
 </html>
