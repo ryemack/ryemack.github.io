@@ -31,7 +31,7 @@ function preloadImages( images, callback ) {
 
     function _preload( asset ) {
 	asset.img = new Image();
-	asset.img.src = 'img/' + asset.id+'.png';
+	asset.img.src = './' + asset.id+'.png';
 
 	asset.img.addEventListener("load", function() {
 	    _check();
@@ -71,12 +71,12 @@ function SlotGame() {
     var game = new Game();
 
     var items = [ 
-	{id: 'energy-64'},
-	{id: 'staff-64'},
-	{id: 'cash-64'},
-	{id: 'build-64'},
-	{id: 'goods-64'},
-	{id: 'gold-64'}
+	{id: 'helmet'},
+	{id: 'boots'},
+	{id: 'grenade'},
+	{id: 'jet'},
+	{id: 'rifle'},
+	{id: 'tank'}
     ];
 
     $('canvas').attr('height', IMAGE_HEIGHT * ITEM_COUNT * 2);
