@@ -1,269 +1,163 @@
 <html>
-	<head>
-  		<link rel="stylesheet" href="./index.css" />
-		<link rel="stylesheet" href="./slotMachine.css" />
-	</head>
-  	<body>
-		<div id="app" class="bigBoss">
-			<div class="myTitle">
-        			My Ranger
-      			</div>
+<head>
+    <link rel="stylesheet" href="./index.css"/>
+    <link rel="stylesheet" href="./slotMachine.css"/>
+</head>
+<body>
+<div id="app" class="bigBoss">
+    <div class="myTitle">
+        My Ranger
+    </div>
 
-      			<div class="learningFlex">
-				<div class="tabSelector" id="makeTab">
-          				Make Ranger
-				</div>
-        			<div class="tabSelector" id="viewTab">
-          				View Ranger
-        			</div>
-        			<div class="tabSelector">
-          				Tab 3
-        			</div>
-      			</div>
+    <div class="learningFlex">
+        <div class="tabSelector" id="makeTab">
+            Make Ranger
+        </div>
+        <div class="tabSelector" id="viewTab">
+            View Ranger
+        </div>
+        <div class="tabSelector">
+            Tab 3
+        </div>
+    </div>
 
-      			<div id="chosenContent" class="chosenClass"></div>
-		</div>
-			
-		<div id="stage" class="perspective-on">
-			<div id="rotate">
-			<div id="ring1" class="ring"></div>
-			<div id="ring2" class="ring"></div>
-		    	<div id="ring3" class="ring"></div>
-		    	<div id="ring4" class="ring"></div>
-		    	<div id="ring5" class="ring"></div>
-    		</div>
-			
-  		<div>
-	    		<button class="go">Start spinning</button>
-	  	</div>
-  
-	  	<div>
-	    		<label>
-		      		<input type="checkbox" id="xray">
-		      		Show inner workings
-		    	</label>
-		    	<label>
-		      		<input type="checkbox" id="perspective">
-				Toggle perspective
-			</label>
-	  	</div>
-  
-	</div>
-  </body>
-  <script>
-	const newRangerBuilder = {
-		name: "",
-  		rank: "",
-  		brn: ""
-	}
+    <div id="chosenContent" class="chosenClass"></div>
+</div>
+<div id="viewport">
+    <div id="container">
+        <div id="header">
+            <h1>Slots Machine</h1>
+            <h3>Play and Win</h3>
+        </div>
+        <div id="reels">
+            <canvas id="canvas1" width="70" height="300"></canvas>
+            <canvas id="canvas2" width="70" height="300"></canvas>
+            <canvas id="canvas3" width="70" height="300"></canvas>
+            <div id="overlay">
+                <div id="winline"></div>
+            </div>
+            <div id="results">
+                <div id="score">
+                    <span id="multiplier">0</span> x <img src="img/gold-64.png"/>
+                </div>
+                <div id="status"></div>
+            </div>
+        </div>
+        <div id="buttons">
+            <div id="play" class="button button-default">Play</div>
+        </div>
+    </div>
+    <input id="debug" type="button" value="Toggle Reels"/>
+</div>
+</body>
+<script>
+    const newRangerBuilder = {
+        name: "",
+        rank: "",
+        brn: ""
+    }
 
-	window.onload = function() {
-		console.log("onload has ran")
-  		const defaultTab = document.getElementById("makeTab")
-  		defaultTab.click()
-	}
+    window.onload = function () {
+        console.log("onload has ran")
+        const defaultTab = document.getElementById("makeTab")
+        defaultTab.click()
+    }
 
-	const viewTab = document.getElementById("viewTab")
-	viewTab.addEventListener("click", () => {
-		const viewContent = document.getElementById("chosenContent")
-  		viewContent.innerHTML = ""
-  
-		const currTitle = document.createElement("div")
-  		currTitle.innerHTML = "Current Ranger Data"
-  		viewContent.appendChild(currTitle)
-  
-  		const currName = document.createElement("div")
-  		currName.innerHTML = "currName: "
-  		currName.classList.add("dataSpacer")
-  		const nameResult = document.createElement("span")
-  		nameResult.innerHTML = newRangerBuilder.name
-  		currName.appendChild(nameResult)
-		viewContent.appendChild(currName)
-  
-  		const currRank = document.createElement("div")
-  		currRank.innerHTML = "currRank: "
-  		currRank.classList.add("dataSpacer")
- 		 const rankResult = document.createElement("span")
-  		rankResult.innerHTML = newRangerBuilder.rank
-  		currRank.appendChild(rankResult)
-  		viewContent.appendChild(currRank)
-  
-  		const currBrn = document.createElement("div")
-  		currBrn.innerHTML = "currBrn: "
-  		currBrn.classList.add("dataSpacer")
-  		const brnResult = document.createElement("span")
-  		brnResult.innerHTML = newRangerBuilder.brn
-		currBrn.appendChild(brnResult)
-  		viewContent.appendChild(currBrn)
-	})
+    const viewTab = document.getElementById("viewTab")
+    viewTab.addEventListener("click", () => {
+        const viewContent = document.getElementById("chosenContent")
+        viewContent.innerHTML = ""
 
-	const makeTab = document.getElementById("makeTab")
-	makeTab.addEventListener("click", () => {
-		const makeContent = document.getElementById("chosenContent")
- 		makeContent.innerHTML = ""
-  
-  		const rangerName = document.createElement("div")
-  		rangerName.innerHTML = "Name: "
-  		const nameInput = document.createElement("input")
-  		nameInput.id = "rangerName"
-  		rangerName.appendChild(nameInput)
-  		makeContent.appendChild(rangerName)
-  
-  		const rangerRank = document.createElement("div")
-  		rangerRank.innerHTML = "Rank: "
-  		const rankInput = document.createElement("input")
-  		rankInput.id = "rangerRank"
-  		rangerRank.appendChild(rankInput)
-  		makeContent.appendChild(rangerRank)
-  
-  		const rangerBrn = document.createElement("div")
-  		rangerBrn.innerHTML = "BRN: "
-  		const brnInput = document.createElement("input")
-  		brnInput.id = "rangerBrn"
-  		rangerBrn.appendChild(brnInput)
-  		makeContent.appendChild(rangerBrn)
-  
-  		const buttonHolder = document.createElement("div")
-  		const subBtn = document.createElement("button")
-		subBtn.id = "subBtn"
-  		subBtn.classList.add("btnClass")
-  		subBtn.innerHTML = "Submit Info"
-  		buttonHolder.appendChild(subBtn)
-  		makeContent.appendChild(buttonHolder)
-  
-  		const submitBtn = document.getElementById("subBtn")
-			submitBtn.addEventListener("click", () => {
+        const currTitle = document.createElement("div")
+        currTitle.innerHTML = "Current Ranger Data"
+        viewContent.appendChild(currTitle)
 
-			if (newRangerBuilder.name !== "" || newRangerBuilder.rank !== "" || newRangerBuilder.brn !== "") {
-				console.log("i have some previous info!")
-			}
+        const currName = document.createElement("div")
+        currName.innerHTML = "currName: "
+        currName.classList.add("dataSpacer")
+        const nameResult = document.createElement("span")
+        nameResult.innerHTML = newRangerBuilder.name
+        currName.appendChild(nameResult)
+        viewContent.appendChild(currName)
 
-			const nameInputValue = document.getElementById("rangerName").value
-  			const rankInputValue = document.getElementById("rangerRank").value
-  			const brnInputValue = document.getElementById("rangerBrn").value
- 
+        const currRank = document.createElement("div")
+        currRank.innerHTML = "currRank: "
+        currRank.classList.add("dataSpacer")
+        const rankResult = document.createElement("span")
+        rankResult.innerHTML = newRangerBuilder.rank
+        currRank.appendChild(rankResult)
+        viewContent.appendChild(currRank)
 
-  			if (nameInputValue === "" || rankInputValue === "" || brnInputValue === "") {
-  				console.log("I need all the fields filled out!")
-  			} else {    
-  				console.log("updating...")
-    				newRangerBuilder.name = nameInputValue
- 	 			newRangerBuilder.rank = rankInputValue
-				newRangerBuilder.brn = brnInputValue
-    
-    				document.getElementById("rangerName").value = ""
-    				document.getElementById("rangerRank").value = ""
-    				document.getElementById("rangerBrn").value = ""
-  			}
-		})
-	})
-  </script>
-	<script>
-		const SLOTS_PER_REEL = 12;
-// radius = Math.round( ( panelWidth / 2) / Math.tan( Math.PI / SLOTS_PER_REEL ) ); 
-// current settings give a value of 149, rounded to 150
-const REEL_RADIUS = 150;
+        const currBrn = document.createElement("div")
+        currBrn.innerHTML = "currBrn: "
+        currBrn.classList.add("dataSpacer")
+        const brnResult = document.createElement("span")
+        brnResult.innerHTML = newRangerBuilder.brn
+        currBrn.appendChild(brnResult)
+        viewContent.appendChild(currBrn)
+    })
 
-function createSlots (ring) {
-	
-	var slotAngle = 360 / SLOTS_PER_REEL;
+    const makeTab = document.getElementById("makeTab")
+    makeTab.addEventListener("click", () => {
+        const makeContent = document.getElementById("chosenContent")
+        makeContent.innerHTML = ""
 
-	var seed = getSeed();
+        const rangerName = document.createElement("div")
+        rangerName.innerHTML = "Name: "
+        const nameInput = document.createElement("input")
+        nameInput.id = "rangerName"
+        rangerName.appendChild(nameInput)
+        makeContent.appendChild(rangerName)
 
-	for (var i = 0; i < SLOTS_PER_REEL; i ++) {
-		var slot = document.createElement('div');
-		
-		slot.className = 'slot';
+        const rangerRank = document.createElement("div")
+        rangerRank.innerHTML = "Rank: "
+        const rankInput = document.createElement("input")
+        rankInput.id = "rangerRank"
+        rangerRank.appendChild(rankInput)
+        makeContent.appendChild(rangerRank)
 
-		// compute and assign the transform for this slot
-		var transform = 'rotateX(' + (slotAngle * i) + 'deg) translateZ(' + REEL_RADIUS + 'px)';
+        const rangerBrn = document.createElement("div")
+        rangerBrn.innerHTML = "BRN: "
+        const brnInput = document.createElement("input")
+        brnInput.id = "rangerBrn"
+        rangerBrn.appendChild(brnInput)
+        makeContent.appendChild(rangerBrn)
 
-		slot.style.transform = transform;
+        const buttonHolder = document.createElement("div")
+        const subBtn = document.createElement("button")
+        subBtn.id = "subBtn"
+        subBtn.classList.add("btnClass")
+        subBtn.innerHTML = "Submit Info"
+        buttonHolder.appendChild(subBtn)
+        makeContent.appendChild(buttonHolder)
 
-		// setup the number to show inside the slots
-		// the position is randomized to 
+        const submitBtn = document.getElementById("subBtn")
+        submitBtn.addEventListener("click", () => {
 
-		var content = $(slot).append('<p>' + ((seed + i)%12)+ '</p>');
+            if (newRangerBuilder.name !== "" || newRangerBuilder.rank !== "" || newRangerBuilder.brn !== "") {
+                console.log("i have some previous info!")
+            }
 
-		// add the poster to the row
-		ring.append(slot);
-	}
-}
+            const nameInputValue = document.getElementById("rangerName").value
+            const rankInputValue = document.getElementById("rangerRank").value
+            const brnInputValue = document.getElementById("rangerBrn").value
 
-function getSeed() {
-	// generate random number smaller than 13 then floor it to settle between 0 and 12 inclusive
-	return Math.floor(Math.random()*(SLOTS_PER_REEL));
-}
 
-function spin(timer) {
-	//var txt = 'seeds: ';
-	for(var i = 1; i < 6; i ++) {
-		var oldSeed = -1;
-		/*
-		checking that the old seed from the previous iteration is not the same as the current iteration;
-		if this happens then the reel will not spin at all
-		*/
-		var oldClass = $('#ring'+i).attr('class');
-		if(oldClass.length > 4) {
-			oldSeed = parseInt(oldClass.slice(10));
-			console.log(oldSeed);
-		}
-		var seed = getSeed();
-		while(oldSeed == seed) {
-			seed = getSeed();
-		}
+            if (nameInputValue === "" || rankInputValue === "" || brnInputValue === "") {
+                console.log("I need all the fields filled out!")
+            } else {
+                console.log("updating...")
+                newRangerBuilder.name = nameInputValue
+                newRangerBuilder.rank = rankInputValue
+                newRangerBuilder.brn = brnInputValue
 
-		$('#ring'+i)
-			.css('animation','back-spin 1s, spin-' + seed + ' ' + (timer + i*0.5) + 's')
-			.attr('class','ring spin-' + seed);
-	}
-
-	console.log('=====');
-}
-
-$(document).ready(function() {
-
-	// initiate slots 
- 	createSlots($('#ring1'));
- 	createSlots($('#ring2'));
- 	createSlots($('#ring3'));
- 	createSlots($('#ring4'));
- 	createSlots($('#ring5'));
-
- 	// hook start button
- 	$('.go').on('click',function(){
- 		var timer = 2;
- 		spin(timer);
- 	})
-
- 	// hook xray checkbox
- 	$('#xray').on('click',function(){
- 		//var isChecked = $('#xray:checked');
- 		var tilt = 'tiltout';
- 		
-    if($(this).is(':checked')) {
- 			tilt = 'tiltin';
- 			$('.slot').addClass('backface-on');
- 			$('#rotate').css('animation',tilt + ' 2s 1');
-
-			setTimeout(function(){
-			  $('#rotate').toggleClass('tilted');
-			},2000);
- 		} else {
-      tilt = 'tiltout';
- 			$('#rotate').css({'animation':tilt + ' 2s 1'});
-
-			setTimeout(function(){
-	 			$('#rotate').toggleClass('tilted');
-	 			$('.slot').removeClass('backface-on');
-	 		},1900);
- 		}
- 	})
-
- 	// hook perspective
- 	$('#perspective').on('click',function(){
- 		$('#stage').toggleClass('perspective-on perspective-off');
- 	})	
- });
-	</script>
+                document.getElementById("rangerName").value = ""
+                document.getElementById("rangerRank").value = ""
+                document.getElementById("rangerBrn").value = ""
+            }
+        })
+    })
+</script>
+<script type="text/javascript" src="js/slot.js"></script>
+<script type="text/javascript">$(function() { SlotGame(); });</script>
 </html>
