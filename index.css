@@ -1,0 +1,59 @@
+body {
+  background: #20262E;
+  padding: 20px;
+  font-family: Comic Sans ms;
+  color: white;
+}
+
+.bigBoss {
+  background: #4C5363;
+  border-radius: 4px;
+  padding: 20px;
+  transition: all 0.2s;
+  text-align: center;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 275px;
+}
+
+.myTitle {
+  font-size: 30px;
+  border-bottom: solid 2px black;
+}
+
+.learningFlex {
+  display: flex;
+  justify-content: space-between;
+}
+
+.tabSelector {
+  color: #12B097;
+  border-bottom: solid 2px #12B097;
+}
+
+.tabSelector:hover {
+  cursor: pointer;
+}
+
+.chosenClass {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 150px;
+}
+
+.btnClass {
+  background: #12B097;
+  height: 40px;
+  width: 150px;
+  border-radius: 10px;
+}
+
+.dataSpacer {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+}
